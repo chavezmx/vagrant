@@ -9,10 +9,15 @@ jmx will be enable.
 Usage:
 
 cd vagrant
-vagrant plugin install vagrant-omnibus
+vagrant plugin install vagrant-omnibus (if not installed)
 vagrant up
 
+JMX connection:
+
+192.168.33.10:9004
+user: controlRole
+password: tomcat
 
 TODO:
 
-Fix the configuration of jmx that is breaking tomcat initialization.
+-enable to do PAT
