@@ -22,11 +22,11 @@ Vagrant.configure(2) do |config|
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine. In the example below,
   # accessing "localhost:8080" will access port 80 on the guest machine.
-  # config.vm.network "forwarded_port", guest: 80, host: 8080
+  # config.vm.network "forwarded_port", guest: 8999, host: 8080
 
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
-  # config.vm.network "private_network", ip: "192.168.33.10"
+  config.vm.network "private_network", ip: "192.168.33.10"
 
   # Create a public network, which generally matched to bridged network.
   # Bridged networks make the machine appear as another physical device on
@@ -69,7 +69,7 @@ Vagrant.configure(2) do |config|
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
   # documentation for more information about their specific syntax and use.
    config.vm.provision "shell", inline: <<-SHELL
-     sudo yum -y install git 
+     #sudo yum -y install git 
      #sudo rpm -ivh https://opscode-omnibus-packages.s3.amazonaws.com/el/6/x86_64/chef-12.4.1-1.el6.x86_64.rpm
      #sudo mkdir /vagrant/cookbooks
      #sudo git clone https://github.com/chavezmx/chef-ex /vagrant/cookbooks/my-tomcat
@@ -78,14 +78,6 @@ Vagrant.configure(2) do |config|
   #   sudo apt-get install -y apache2
    SHELL
   config.vm.provision "chef_solo" do |chef|
-#    chef.cookbooks_path = "/vagrant/cookbooks"
     chef.add_recipe "my-tomcat"
-    chef.json = {
-      "tomcat" => {
-        "java_options" => "${JAVA_OPTS} -Xmx2048M -Djava.awt.headless=true -Dcom.sun.management.jmxremote.port=8889 -Dcom.sun.management.jmxremote.password.file=$CATALINA_HOME/conf/jmxremote.password -Dcom.sun.management.jmxremote.access.file=$CATALINA_HOME/conf/jmxremote.access -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=true -Djava.rmi.server.hostname=localhost" ,
-	"base_version" => "7"
-        
-	}
-}
   end
 end
